@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const ItemInfo = ({ item, onDelete }) => {
+const ItemInfo = ({ item, onDelete, setDraggingTarget }) => {
   // console.log("[ItemInfo]item:", item);
   return (
     <Info
@@ -10,6 +10,13 @@ const ItemInfo = ({ item, onDelete }) => {
       width={item.boxSize.width}
       height={item.boxSize.height}
       zindex={item.zindex}
+      onClick={() => {
+        console.log("item click");
+        setDraggingTarget(item);
+      }}
+      onMouseMove={(e) => {
+        console.log("info mouse move");
+      }}
     >
       <span>{item.text}</span>
       <DeleteButton onClick={() => onDelete(item)}>X</DeleteButton>
@@ -17,7 +24,7 @@ const ItemInfo = ({ item, onDelete }) => {
   );
 };
 
-const Info = styled.li`
+const Info = styled.div`
   top: ${(props) => props.top}px;
   left: ${(props) => props.left}px;
   width: ${(props) => props.width}px;
@@ -28,10 +35,11 @@ const Info = styled.li`
   padding-left: 5px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: flex-start;
   border: 2px solid #d9ead3;
   word-break: break-all;
   overflow: scroll;
+  cursor: pointer;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -39,6 +47,7 @@ const Info = styled.li`
     padding-right: 25px;
     font-size: 15px;
     font-weight: 600;
+    box-sizing: content-box;
   }
 `;
 
