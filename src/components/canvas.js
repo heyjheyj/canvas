@@ -53,6 +53,7 @@ const Canvas = (props) => {
       ctx.lineWidth = 2;
       ctx.fillStyle = "rgba(244,204,204, 0.3)";
       ctx.fill();
+
       let width = parseInt(mouseX - startXY[0]);
       let height = parseInt(mouseY - startXY[1]);
       ctx.strokeRect(startXY[0], startXY[1], width, height);
@@ -64,15 +65,22 @@ const Canvas = (props) => {
   const finishDrawing = (e) => {
     e.preventDefault();
 
+    if (boxSize.width < 30 || boxSize.height < 30) {
+      alert("가로, 세로 길이는 최소 30px 이상이어야 합니다.");
+      setIsDrawing(false);
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      return;
+    }
+
     setIsDrawing(false);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    let text = prompt("제목을 입력해주세요");
+    let text = prompt("영역의 이름은 무엇인가요?");
+    console.log(text);
 
     if (
       startXY[0] === undefined ||
       startXY[1] === undefined ||
-      boxSize.width === undefined ||
-      boxSize.height === undefined ||
+      text === null ||
       text === ""
     ) {
       return;
@@ -96,6 +104,10 @@ const Canvas = (props) => {
   return (
     <>
       <CanvasComponent>
+        <ShowItems>
+          {infoBoxes &&
+            infoBoxes?.map((item, index) => <li key={index}>{item.text}</li>)}
+        </ShowItems>
         <InfoBoxContainer>
           {infoBoxes &&
             infoBoxes?.map((item, index) => (
@@ -110,12 +122,6 @@ const Canvas = (props) => {
           onMouseMove={drawing}
           onMouseUp={finishDrawing}
         ></DrawArea>
-        {/* <InfoBoxContainer>
-        {infoBoxes &&
-          infoBoxes?.map((item, index) => (
-            <ItemInfo key={index} item={item} onDelete={deleteItemInfo} />
-          ))}
-      </InfoBoxContainer> */}
       </CanvasComponent>
     </>
   );
@@ -141,8 +147,28 @@ const DrawArea = styled.canvas`
   z-index: 0;
 `;
 
-const InfoBoxContainer = styled.div`
+const InfoBoxContainer = styled.ul`
   width: 700px;
   height: 874px;
   position: relative;
+`;
+
+const ShowItems = styled.ul`
+  width: 120px;
+  min-height: 50px;
+  height: auto;
+  background: #ffffff70;
+  z-index: 999;
+  top: 10px;
+  left: 10px;
+  position: absolute;
+  padding: 10px 0 30px 30px;
+  list-style-position: outside;
+  list-style-type: square;
+  font-weight: 600;
+  li {
+    padding-top: 5px;
+    max-height: 40px;
+    word-break: break-all;
+  }
 `;
