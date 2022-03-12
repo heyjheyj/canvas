@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import "./App.css";
-import Canvas from "./components/canvas";
+import Canvas from "./components/Canvas";
 
 function App() {
   return (

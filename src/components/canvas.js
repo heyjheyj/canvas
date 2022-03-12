@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import ItemInfo from "./Iteminfo";
+import ItemInfo from "./ItemInfo";
 
 const setItem = (infoBox) => {
   window.localStorage.setItem("infoBox", JSON.stringify(infoBox));
