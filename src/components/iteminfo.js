@@ -86,7 +86,7 @@ export default function ItemInfo({
         }}
         onClick={() => onDelete(item)}
       >
-        X
+        x
       </button>
     </li>
   );
